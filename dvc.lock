@@ -1,0 +1,117 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/pneuDetection/pipeline/stage_01_data_ingestion.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: 078e0013f5a217f85a60abf4a26041ef
+      size: 580
+    - path: src/pneuDetection/pipeline/stage_01_data_ingestion.py
+      hash: md5
+      md5: 7e70f5425c1a214d88b03451d5cc6919
+      size: 943
+    outs:
+    - path: artifacts/data_ingestion/xrays
+      hash: md5
+      md5: cff91277005046b0a99296565ab6e6ec.dir
+      size: 1157774171
+      nfiles: 5233
+  prepare_base_model:
+    cmd: python src/pneuDetection/pipeline/stage_02_prepare_base_model.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: 078e0013f5a217f85a60abf4a26041ef
+      size: 580
+    - path: src/pneuDetection/pipeline/stage_02_prepare_base_model.py
+      hash: md5
+      md5: d0ba5469a7c846124b16ff8e0fa2cdc5
+      size: 991
+    params:
+      params.yaml:
+        CLASSES: 2
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+        INCLUDE_TOP: false
+        LEARNING_RATE: 0.01
+        WEIGHTS: imagenet
+    outs:
+    - path: artifacts/prepare_base_model
+      hash: md5
+      md5: 5ab8bf7029d2fa28a900b30755bc9772.dir
+      size: 118053368
+      nfiles: 2
+  training:
+    cmd: python src/pneuDetection/pipeline/stage_03_model_training.py
+    deps:
+    - path: artifacts/data_ingestion/xrays
+      hash: md5
+      md5: cff91277005046b0a99296565ab6e6ec.dir
+      size: 1157774171
+      nfiles: 5233
+    - path: artifacts/prepare_base_model
+      hash: md5
+      md5: 5ab8bf7029d2fa28a900b30755bc9772.dir
+      size: 118053368
+      nfiles: 2
+    - path: config/config.yaml
+      hash: md5
+      md5: 078e0013f5a217f85a60abf4a26041ef
+      size: 580
+    - path: src/pneuDetection/components/model_training.py
+      hash: md5
+      md5: 77dd6cfb5601f9e49a80c1910d286275
+      size: 2585
+    - path: src/pneuDetection/pipeline/stage_03_model_training.py
+      hash: md5
+      md5: 998747247f11e2891440ca56ff2eeee4
+      size: 927
+    params:
+      params.yaml:
+        AUGMENTATION: true
+        BATCH_SIZE: 16
+        EPOCHS: 1
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+    outs:
+    - path: artifacts/training/model.h5
+      hash: md5
+      md5: 9addcbde6630736a184c4e094b5739dc
+      size: 59135136
+  evaluation:
+    cmd: python src/pneuDetection/pipeline/stage_04_model_evaluation.py
+    deps:
+    - path: artifacts/data_ingestion/xrays
+      hash: md5
+      md5: cff91277005046b0a99296565ab6e6ec.dir
+      size: 1157774171
+      nfiles: 5233
+    - path: artifacts/training/model.h5
+      hash: md5
+      md5: 9addcbde6630736a184c4e094b5739dc
+      size: 59135136
+    - path: config/config.yaml
+      hash: md5
+      md5: 078e0013f5a217f85a60abf4a26041ef
+      size: 580
+    - path: src/pneuDetection/pipeline/stage_04_model_evaluation.py
+      hash: md5
+      md5: acdccbc5653fb8369b71071fb604b636
+      size: 918
+    params:
+      params.yaml:
+        BATCH_SIZE: 16
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+    outs:
+    - path: scores.json
+      hash: md5
+      md5: 9f4df7af11459bec28b4273be68166e6
+      size: 73

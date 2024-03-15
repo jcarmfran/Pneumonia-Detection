@@ -1,11 +1,11 @@
-stages:pneuDetection
+stages:
   data_ingestion:
     cmd: python src/pneuDetection/pipeline/stage_01_data_ingestion.py
     deps:
       - src/pneuDetection/pipeline/stage_01_data_ingestion.py
       - config/config.yaml
     outs:
-      - artifacts/data_ingestion/Xray-images
+      - artifacts/data_ingestion/xrays
 
 
   prepare_base_model:
@@ -24,12 +24,12 @@ stages:pneuDetection
 
 
   training:
-    cmd: python src/pneuDetection/pipeline/stage_03_training.py
+    cmd: python src/pneuDetection/pipeline/stage_03_model_training.py
     deps:
-      - src/pneuDetection/pipeline/stage_03_training.py
-      - src/pneuDetection/components/prepare_callbacks.py
+      - src/pneuDetection/pipeline/stage_03_model_training.py
+      - src/pneuDetection/components/model_training.py
       - config/config.yaml
-      - artifacts/data_ingestion/Xray-images
+      - artifacts/data_ingestion/xrays
       - artifacts/prepare_base_model
     params:
       - IMAGE_SIZE
@@ -41,11 +41,11 @@ stages:pneuDetection
 
 
   evaluation:
-    cmd: python src/pneuDetection/pipeline/stage_04_evaluation.py
+    cmd: python src/pneuDetection/pipeline/stage_04_model_evaluation.py
     deps:
-      - src/pneuDetection/pipeline/stage_04_evaluation.py
+      - src/pneuDetection/pipeline/stage_04_model_evaluation.py
       - config/config.yaml
-      - artifacts/data_ingestion/Xray-images
+      - artifacts/data_ingestion/xrays
       - artifacts/training/model.h5
     params:
       - IMAGE_SIZE
