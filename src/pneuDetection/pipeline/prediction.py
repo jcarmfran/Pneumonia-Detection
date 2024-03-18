@@ -11,7 +11,8 @@ class PredictionPipeline:
 
     def predict(self):
         # load model
-        model = load_model(os.path.join("models", "model.h5"))
+        # model = load_model(os.path.join("models", "model.h5")) # uncomment for .github/workflows-app.py deployment
+        model = load_model(os.path.join("artifacts", "training", "model.h5"))
 
         imagename = self.filename
         test_image = image.load_img(imagename, target_size = (224,224))
@@ -21,8 +22,8 @@ class PredictionPipeline:
         print(result)
 
         if result[0] == 1:
-            prediction = 'Tumor'
+            prediction = 'Pneumonia'
             return [{ "image" : prediction}]
         else:
-            prediction = 'Normal'
+            prediction = 'Non-Pneumonia'
             return [{ "image" : prediction}]

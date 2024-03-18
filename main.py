@@ -16,8 +16,8 @@ try:
    data_ingestion.main()
    logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
 except Exception as e:
-    logger.exception(e)
-    raise e
+   logger.exception(e)
+   raise e
 
 
 ### DATA PREPARATION STAGE ###
@@ -31,11 +31,11 @@ try:
    prepare_base_model.main()
    logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
 except Exception as e:
-    logger.exception(e)
-    raise e
+   logger.exception(e)
+   raise e
 
 
-### DATA TRAINING STAGE###
+### DATA TRAINING STAGE ###
 
 STAGE_NAME = "MODEL TRAINING"
 
@@ -46,9 +46,11 @@ try:
    model_trainer.main()
    logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
 except Exception as e:
-        logger.exception(e)
-        raise e
+   logger.exception(e)
+   raise e
 
+
+### MODEL EVALUATION STAGE ###
 
 STAGE_NAME = "MODEL EVALUATION"
 
