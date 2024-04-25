@@ -7,17 +7,17 @@ from pneuDetection.pipeline.stage_04_model_evaluation import EvaluationPipeline
 
 ### DATA INGESTION STAGE ###
 
-STAGE_NAME = "DATA INGESTION"
+# STAGE_NAME = "DATA INGESTION"
 
-try:
-   logger.info(f"*******************")
-   logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<") 
-   data_ingestion = DataIngestionTrainingPipeline()
-   data_ingestion.main()
-   logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
-except Exception as e:
-   logger.exception(e)
-   raise e
+# try:
+#    logger.info(f"*******************")
+#    logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<") 
+#    data_ingestion = DataIngestionTrainingPipeline()
+#    data_ingestion.main()
+#    logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
+# except Exception as e:
+#    logger.exception(e)
+#    raise e
 
 
 ### DATA PREPARATION STAGE ###
