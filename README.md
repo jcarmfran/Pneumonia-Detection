@@ -2,6 +2,12 @@
 
 This application leverages a deep learning model trained on chest X-rays to assess whether a patient’s X-ray shows signs of pneumonia. Users can easily upload their X-ray images, and the app provides an immediate assessment.
 
+Application screenshot:
+![gui_before](/assets/imgs/app_gui.png)
+
+After upload and assessment:
+![gui_after](/assets//imgs/app_gui_non-pneu.png)
+
 ## Features:
 
 - **Chest X-ray Assessment**: Upload your chest X-ray image, and our model will analyze it for pneumonia indicators.
